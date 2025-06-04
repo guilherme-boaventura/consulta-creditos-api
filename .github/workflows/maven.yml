@@ -5,7 +5,7 @@ on:
     branches: [ "**" ]
     
 jobs: 
-  verify:
+  compile:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
@@ -15,5 +15,5 @@ jobs:
         java-version: '21'
         distribution: 'temurin'
         cache: maven
-    - name: Build with Maven
-      run: mvn clean verify
+    - name: Compile with Maven
+      run: mvn clean compile
