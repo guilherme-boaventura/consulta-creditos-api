@@ -1,10 +1,11 @@
 package glhrme.bvt.consulta_credito.utils.kafka;
 
-import com.google.gson.JsonObject;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
-import java.time.Instant;
 import java.time.ZonedDateTime;
 import java.util.Objects;
 import java.util.UUID;
@@ -12,51 +13,18 @@ import java.util.UUID;
 @Service
 public class KafkaProducerService {
 
-    private final KafkaTemplate<String, JsonObject> kafkaTemplate;
+    @Autowired
+    private final KafkaTemplate<String, KafkaMessage> kafkaTemplate;
 
-    public KafkaProducerService(KafkaTemplate<String, JsonObject> kafkaTemplate) {
+    public KafkaProducerService(KafkaTemplate<String, KafkaMessage> kafkaTemplate) {
         this.kafkaTemplate = kafkaTemplate;
     }
 
-    public void sendMessage(String topic, JsonObject mensagem) {
-        validar(mensagem);
-        kafkaTemplate.send(topic, mensagem);
-    }
-
-    public static void validar(JsonObject json) {
-        if (Objects.isNull(json)) {
-            throw new IllegalArgumentException("JsonObject não pode ser nulo");
+    public void sendMessage(String topic, String type, Object payload) throws JsonProcessingException {
+        if(Objects.isNull(payload) || !StringUtils.hasText(type)) {
+            throw new IllegalArgumentException("O corpo e o tipo da mensagem devem ser informados para o seu envio.");
         }
 
-        if (!json.has("id")) {
-            throw new IllegalArgumentException("Falta o campo obrigatório: id");
-        } else {
-            String id = json.get("id").getAsString();
-            try {
-                UUID.fromString(id);
-            } catch (Exception e) {
-                throw new IllegalArgumentException("Campo 'id' não é um UUID válido");
-            }
-        }
-
-        if (!json.has("type")) {
-            throw new IllegalArgumentException("Falta o campo obrigatório: type");
-        } else {
-            String type = json.get("type").getAsString();
-            if (type.isBlank()) {
-                throw new IllegalArgumentException("Campo 'type' não pode ser vazio");
-            }
-        }
-
-        if (!json.has("timestamp")) {
-            throw new IllegalArgumentException("Falta o campo obrigatório: timestamp");
-        } else {
-            String timestamp = json.get("timestamp").getAsString();
-            try {
-                ZonedDateTime.parse(timestamp);
-            } catch (Exception e) {
-                throw new IllegalArgumentException("Campo 'timestamp' não está no formato ZonedDateTime ISO-8601 válido");
-            }
-        }
+        kafkaTemplate.send(topic, new KafkaMessage(UUID.randomUUID().toString(), type, ZonedDateTime.now().toString(), payload));
     }
 }
