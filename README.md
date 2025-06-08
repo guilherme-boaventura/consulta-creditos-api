@@ -2,15 +2,11 @@
 
 Este projeto contém a API para o sistema de Consulta de Crédito, que depende de Kafka e PostgreSQL. A aplicação web que consome esta API está no repositório https://github.com/guilherme-boaventura/consulta-creditos-web, que deve ser clonado e buildado antes de executar o sistema completo.
 
----
-
 ## Pré-requisitos
 
 - Docker
 - Docker Compose
 - Git
-
----
 
 ## Passo 1: Clonar e buildar a aplicação web (consulta-credito-web)
 
@@ -21,7 +17,6 @@ git clone https://github.com/guilherme-boaventura/consulta-creditos-web.git
 cd consulta-creditos-web
 docker build -t consulta-credito-web .
 ```
----
 
 ## Passo 2: Clonar e buildar a API (consulta-credito-api)
 No repositório onde deseja alocar este projeto, execute:
@@ -31,7 +26,6 @@ git clone https://github.com/guilherme-boaventura/consulta-creditos-api.git
 cd consulta-creditos-api
 docker build -t consulta-credito-api .
 ```
----
 
 ## Passo 3: Subir os serviços com Docker Compose
 
@@ -57,8 +51,6 @@ Consulta Crédito API (aplicação back-end)
 
 Consulta Crédito Web (aplicação front-end)
 
----
-
 ## 🔗 Serviços Disponíveis
 
 | Serviço      | URL de Acesso                                     |
@@ -69,15 +61,12 @@ Consulta Crédito Web (aplicação front-end)
 | PostgreSQL   | jdbc:postgresql://localhost:5432/consulta_credito |
 | Kafka Broker | localhost:9092 (externo) / kafka:29092 (interno)  |
 
----
-
 ## 🛑 Parar o sistema
 Para parar e remover os containers:
 
 ```bash
 docker-compose down
 ```
----
 
 ## 👀 Observações
 
@@ -95,8 +84,6 @@ O Kafka está configurado com dois listeners:
   - `EXTERNAL` para acesso local (ex: `localhost:9092`)
   - `INTERNAL` para comunicação entre containers (ex: `kafka:29092`)
 
----
-
 ## ⚙️ Variáveis de Ambiente
 
 ### Kafka
@@ -110,7 +97,6 @@ O Kafka está configurado com dois listeners:
 - `SPRING_DATASOURCE_USERNAME=postgres`
 - `SPRING_DATASOURCE_PASSWORD=postgres`
 
----
 
 ## 🧪 Testando a Integração com Kafka
 
