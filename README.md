@@ -10,7 +10,7 @@ Este projeto contém a API para o sistema de Consulta de Crédito, que depende d
 
 ## Passo 1: Clonar e buildar a aplicação web (consulta-credito-web)
 
-Antes de iniciar o backend, é necessário clonar o repositório da aplicação web, construir a imagem Docker e disponibilizá-la para o docker-compose.
+Antes de iniciar o backend, é necessário clonar o repositório da aplicação web e construir a imagem Docker.
 
 ```bash
 git clone https://github.com/guilherme-boaventura/consulta-creditos-web.git
@@ -96,14 +96,3 @@ O Kafka está configurado com dois listeners:
 - `SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/consulta_credito`
 - `SPRING_DATASOURCE_USERNAME=postgres`
 - `SPRING_DATASOURCE_PASSWORD=postgres`
-
-
-## 🧪 Testando a Integração com Kafka
-
-Você pode usar a **Kafka UI** para:
-
-- Criar tópicos
-- Enviar mensagens
-- Visualizar mensagens publicadas
-
-Acesse: http://localhost:8081
