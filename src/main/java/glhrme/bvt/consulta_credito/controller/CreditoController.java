@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/creditos")
@@ -25,14 +26,16 @@ public class CreditoController {
     @GetMapping("/{numeroNfse}")
     public List<Credito> obterPorNumeroNfse(@PathVariable("numeroNfse") String numeroNfse) throws JsonProcessingException {
         List<Credito> creditos = creditoService.findByNumeroNfse(numeroNfse);
-        kafkaProducer.sendMessage("consulta_credito", "obterPorNumeroNfse", creditos);
+
+        kafkaProducer.sendMessage("consulta_credito", "obterPorNumeroNfse", Map.of("numeroConsultado", numeroNfse, "retornoConsulta", creditos));
         return creditos;
     }
 
     @GetMapping("/credito/{numeroCredito}")
     public Credito obterPorNumeroCredito(@PathVariable("numeroCredito") String numeroCredito) throws JsonProcessingException {
         Credito credito = creditoService.findByNumeroCredito(numeroCredito);
-        kafkaProducer.sendMessage("consulta_credito", "obterPorNumeroCredito", credito);
+
+        kafkaProducer.sendMessage("consulta_credito", "obterPorNumeroCredito", Map.of("numeroConsultado", numeroCredito, "retornoConsulta", credito));
         return credito;
     }
 }
