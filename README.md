@@ -96,3 +96,11 @@ O Kafka está configurado com dois listeners:
 - `SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/consulta_credito`
 - `SPRING_DATASOURCE_USERNAME=postgres`
 - `SPRING_DATASOURCE_PASSWORD=postgres`
+
+## Executando testadores
+
+Com os serviços do docker-compose sendo executados, execute o seguinte comando para executar os testadores:
+
+```bash
+set KAFKA_BOOTSTRAP_SERVER=localhost:9092 && mvn test
+```
